@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Feature with Firebase Data</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+ let currentPage = 1;
+const usersPerPage = 5;
+
+function paginateUsers() {
+    console.log("Fetching users...");
+
+       fetch("https://fir-integration1-58162-default-rtdb.firebaseio.com/users.json")
+    .then(response => response.json())
+    .then(data => {
+      data=Object.entries(data);
+        displayUsers(data);
+
+         addPaginationButtons(data);
+    });
+}
+
+
+function displayUsers(filteredUsers) {
+   
+    const startIndex = (currentPage - 1) * usersPerPage;
+    const endIndex = startIndex + usersPerPage;
+
+     const usersToDisplay = filteredUsers.slice(startIndex, endIndex);
+
+    console.log(`Displaying users for page ${currentPage}:`);
+    usersToDisplay.forEach(([key, user], index) => {
+        console.log(`User ${startIndex + index + 1}: ${user.name} (${user.email})`);
+    });
+
+    console.log('--- End of page ---');
+}
+
+
+function addPaginationButtons(filteredUsers) {
+    const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+    
+    console.log(`Total pages: ${totalPages}`);
+
+   
+    if (currentPage < totalPages) {
+        console.log("Next Page: Use nextPage() to go to the next page");
+    } else {
+        console.log("You are on the last page.");
+    }
+
+
+    if (currentPage > 1) {
+        console.log("Previous Page: Use previousPage() to go back to the previous page");
+    } else {
+        console.log("You are on the first page.");
+    }
+}
+
+
+function nextPage() {
+    currentPage++;
+    paginateUsers();
+}
+
+
+function previousPage() {
+    if (currentPage > 1) {
+        currentPage--;
+        paginateUsers();
+    } else {
+        console.log("You are already on the first page.");
+    }
+}
+paginateUsers();
+
+</script>
