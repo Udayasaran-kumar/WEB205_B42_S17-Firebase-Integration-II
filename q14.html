@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Feature with Firebase Data</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+ let currentPage = 1;
+const usersPerPage = 5;
+
+function paginateUsers(pageno, itemsPerPage = 5) {
+    console.log("Fetching users...");
+  const start = (pageno-1) * itemsPerPage; // Incorrect formula//corrected
+  const end = start + itemsPerPage;
+
+  fetch("https://fir-integration1-58162-default-rtdb.firebaseio.com/users.json")
+    .then(response => response.json())
+    .then(data => {
+      const users = Object.entries(data).slice(start, end);
+      console.log("Users on this page: ", users);
+    })
+    .catch(error => console.error("Error fetching data:", error));
+
+
+
+   
+}
+
+
+
+
+paginateUsers(1);
+paginateUsers(2);
+
+
+</script>
