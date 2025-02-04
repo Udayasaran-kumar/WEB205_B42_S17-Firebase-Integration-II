@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Feature with Firebase Data</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+ function paginateUsers(searchTerm = "john") {  
+    console.log("yes");
+    fetch("https://fir-integration1-58162-default-rtdb.firebaseio.com/users.json")
+    .then(response => response.json())
+    .then(data => {
+               const entries = Object.entries(data).filter(([key, user]) =>
+            user.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        console.log(entries);
+    });
+}
+
+paginateUsers();
+</script>
